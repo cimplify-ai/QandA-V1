@@ -236,7 +236,11 @@ def userFileUpload(fileUploaded):
                     elif message["role"] == "assistant":
                         messages.chat_message("assistant", avatar="./Cimplify Cube Logo.png").write(message["content"])
                 if prompt:
-                    iterateMessage()
+                    for message in st.session_state.messages:
+                        if message["role"] == "user":
+                            messages.chat_message("user").write(message["content"])
+                        elif message["role"] == "assistant":
+                            messages.chat_message("assistant", avatar="./Cimplify Cube Logo.png").write(message["content"])
                     messages.chat_message("user").write(prompt)
                     st.session_state.messages.append({"role": "user", "content": prompt})
                     res = v1(prompt)
@@ -277,10 +281,10 @@ if st.session_state.section == "home":
     if st.session_state.option:
         st.title("Engage in a Q&A with a Dataset")
         st.text("Existing Dataset")
-
-        option = st.multiselect("Select an option", ["Indian food", "Predict Customer Purchase Behavior", "Genral Election"], max_selections=1)
-        if option:
-            exitingFileSelect(option)
+        with st.spinner('Wait for it...'):
+            option = st.multiselect("Select an option", ["Indian food", "Predict Customer Purchase Behavior", "Genral Election"], max_selections=1)
+            if option:
+                exitingFileSelect(option)
 
     if st.session_state.fileUploaded:
         st.text("with your Dataset")
@@ -292,8 +296,6 @@ if st.session_state.section == "home":
 
 elif st.session_state.section == "v1":
     st.title('Q & A with a Dataset')
-        
-
     pathDict = {
         "Indian food" : "files/indian_food.csv",
         "Predict Customer Purchase Behavior" : "files/customer_purchase_data.csv",
