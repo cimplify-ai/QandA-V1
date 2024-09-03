@@ -280,17 +280,18 @@ if st.session_state.section == "home":
    
     if st.session_state.option:
         st.title("Engage in a Q&A with a Dataset")
-        st.text("Existing Dataset")
+        st.text("Use an existing Dataset")
         with st.spinner('Wait for it...'):
             option = st.multiselect("Select an option", ["Indian food", "Predict Customer Purchase Behavior", "Genral Election"], max_selections=1)
             if option:
                 exitingFileSelect(option)
 
     if st.session_state.fileUploaded:
-        st.text("with your Dataset")
+        st.text("Upload your own dataset")
         with st.spinner('Wait for it...'):
             fileUploaded = st.file_uploader(
             "Choose a file", type="pdf")
+            st.popover("Please allow 10-15 seconds for responses.")
             if fileUploaded:
                 userFileUpload(fileUploaded)
 
@@ -311,7 +312,8 @@ elif st.session_state.section == "v1":
         option = st.multiselect("Select an option", ["Indian food", "Predict Customer Purchase Behavior", "Genral Election"], max_selections=1)
         exitingFileSelect(option)
 elif  st.session_state.section == "v2":
-    st.title('Q and A with your dataset')    
+    st.title('Q and A with your dataset')
+    st.caption("Please allow 10-15 seconds for responses.")    
     st.caption("powered by cimplify")
     with st.spinner('Wait for it...'):
         fileUploaded= st.file_uploader(
